@@ -1,0 +1,10 @@
+## Node Version
+
+v20.18.0
+
+npx prisma db push
+then insert data into your database
+
+or
+
+run Database.sql file

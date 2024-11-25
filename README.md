@@ -10,7 +10,9 @@
 
 - Example Env File for the database config.
 
-- DATABASE_URL="postgresql://<db_user_name>:<db_user_password>@<database_host>:<database_port>/<database_name>?schema=<schame_name>"
+- `PORT: 4000`, you can decide your PORT in .env file, otherwise it will run in 5000.
+
+- `DATABASE_URL="postgresql://<db_user_name>:<db_user_password>@<database_host>:<database_port>/<database_name>?schema=<schame_name>"`
 
 - Run the Database.sql file.
 

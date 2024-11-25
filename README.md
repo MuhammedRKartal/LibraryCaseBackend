@@ -26,18 +26,18 @@
 #### Return all the members
 
 ```http
-  GET /members
+  GET /users
 ```
 
 #### Return a specific member
 
 ```http
-  POST /members/${id}
+  POST /users/${id}
 ```
 
-| Parameter | Type     | Description                                    |
-| :-------- | :------- | :--------------------------------------------- |
-| `id`      | `string` | **Required**. Çağrılacak öğenin anahtar değeri |
+| Parameter | Type     | Description                            |
+| :-------- | :------- | :------------------------------------- |
+| `id`      | `string` | **Required**. Id of the specific user. |
 
 #### Return all the books
 
@@ -51,14 +51,14 @@
   GET /books/${id}
 ```
 
-| Parameter | Type     | Description                                    |
-| :-------- | :------- | :--------------------------------------------- |
-| `id`      | `string` | **Required**. Çağrılacak öğenin anahtar değeri |
+| Parameter | Type     | Description                            |
+| :-------- | :------- | :------------------------------------- |
+| `id`      | `string` | **Required**. Id of the specific book. |
 
 #### Return the book that you own to library
 
 ```http
-  POST /members/${member_id}/return/${book_id}
+  POST /users/${member_id}/return/${book_id}
 ```
 
 | Body JSON Element | Type    | Description                                   |
@@ -68,7 +68,7 @@
 #### Borrow a book from library
 
 ```http
-  POST /members/${member_id}/borrow/${book_id}
+  POST /users/${member_id}/borrow/${book_id}
 ```
 
 | Parameter | Type    | Description                                   |

@@ -1,16 +1,33 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import prisma from "../prisma/client";
+import logger from "../logger";
 
-export const getAllMembers = async (req: Request, res: Response) => {
+export const getAllMembers = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const members = await prisma.member.findMany();
-    res.json(members);
+
+    if (!members.length) {
+      logger.info("No members found in the database.");
+      res.status(200).json({ members });
+      return;
+    }
+
+    logger.info(`Fetched ${members.length} member(s) successfully.`);
+    res.status(200).json(members);
   } catch (error) {
-    res.status(500).json({ error: "Unable to fetch members" });
+    next(error);
   }
 };
 
-export const getMemberDetails = async (req: Request, res: Response) => {
+export const getMemberDetails = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const memberId = parseInt(req.params.id);
 
@@ -24,26 +41,28 @@ export const getMemberDetails = async (req: Request, res: Response) => {
     });
 
     if (!member) {
-      res.status(400).json({ error: "Member not found!" });
-      return;
+      const error = new Error(`Member with ${memberId} ID isn't found.`);
+      (error as any).statusCode = 404;
+      throw error;
     }
 
-    const previousBorrows = member.borrows.filter((b: any) => b.returned);
-    const presentBorrows = member.borrows.filter((b: any) => !b.returned);
+    const previousBorrows = member?.borrows.filter((b: any) => b.returned);
+    const presentBorrows = member?.borrows.filter((b: any) => !b.returned);
     const borrows = {
       past: previousBorrows,
       present: presentBorrows,
     };
 
+    logger.info(`Fetched ${memberId} successfully.`);
     res.json({
-      id: member.id,
-      name: member.name,
-      age: member.age,
-      gender: member.gender,
-      country: member.country,
+      id: member?.id,
+      name: member?.name,
+      age: member?.age,
+      gender: member?.gender,
+      country: member?.country,
       borrows,
     });
   } catch (error) {
-    res.status(500).json({ error: "Unable to fetch member details" });
+    next(error);
   }
 };

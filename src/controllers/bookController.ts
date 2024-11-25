@@ -31,7 +31,15 @@ export const getBookDetails = async (req: Request, res: Response) => {
     const currentOwner =
       book.borrows.find((borrow) => !borrow.returned)?.member || null;
 
-    res.json({ book, currentOwner });
+    res.json({
+      id: book.id,
+      name: book.name,
+      author: book.author,
+      publisher: book.publisher,
+      publishYear: book.publishYear,
+      rating: book.rating,
+      currentOwner,
+    });
   } catch (error) {
     res.status(500).json({ error: "Unable to fetch book details" });
   }

@@ -27,10 +27,22 @@ export const getMemberDetails = async (req: Request, res: Response) => {
       res.status(400).json({ error: "Member not found!" });
       return;
     }
-    const previousBorrows = member.borrows.filter((b: any) => b.returned);
-    const currentBorrows = member.borrows.filter((b: any) => !b.returned);
 
-    res.json({ member, previousBorrows, currentBorrows });
+    const previousBorrows = member.borrows.filter((b: any) => b.returned);
+    const presentBorrows = member.borrows.filter((b: any) => !b.returned);
+    const borrows = {
+      past: previousBorrows,
+      present: presentBorrows,
+    };
+
+    res.json({
+      id: member.id,
+      name: member.name,
+      age: member.age,
+      gender: member.gender,
+      country: member.country,
+      borrows,
+    });
   } catch (error) {
     res.status(500).json({ error: "Unable to fetch member details" });
   }

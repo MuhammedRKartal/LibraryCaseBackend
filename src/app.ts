@@ -19,7 +19,7 @@ app.options("*", cors());
 
 app.use(express.json());
 
-app.use("/members", memberRoutes);
+app.use("/users", memberRoutes);
 app.use("/books", bookRoutes);
 app.use("/", borrowRoutes);
 
